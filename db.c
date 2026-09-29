@@ -4,6 +4,7 @@
 
 #define MAX_ARGS 8
 #define MAX_ENTRIES 100
+#define DB_FILE "data.db"
 
 struct entry {
     char *key;
@@ -22,9 +23,42 @@ int find(const char *key) {
     return -1;
 }
 
+void save(void) {
+    FILE *fp = fopen(DB_FILE, "w");
+    if (fp == NULL) {
+        printf("保存できませんでした\n");
+        return;
+    }
+
+    for (int i = 0; i < count; i++) {
+        fprintf(fp, "%s %s\n", table[i].key, table[i].value);
+    }
+
+    fclose(fp);
+}
+
+void load(void) {
+    FILE *fp = fopen(DB_FILE, "r");
+    if (fp == NULL) {
+        return;
+    }
+
+    char key[256];
+    char value[256];
+    while (count < MAX_ENTRIES && fscanf(fp, "%255s %255s", key, value) == 2) {
+        table[count].key = strdup(key);
+        table[count].value = strdup(value);
+        count++;
+    }
+
+    fclose(fp);
+}
+
 int main(void) {
 
     char line[256];
+
+    load();
 
     printf("mini-db へようこそ（exit で終了）\n");
 
@@ -107,6 +141,8 @@ int main(void) {
             printf("知らないコマンドです: %s\n", args[0]);
         }
     }
+
+    save();
 
     printf("さようなら\n");
 

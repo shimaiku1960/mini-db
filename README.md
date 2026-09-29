@@ -23,6 +23,8 @@ db> get name
 db> exit
 ```
 
+データは exit 時に `data.db` に保存され、次に起動したときに読み込まれます。
+
 ## 進め方
 
 1. REPL
