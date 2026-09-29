@@ -87,6 +87,22 @@ int main(void) {
             } else {
                 printf("(見つかりません)\n");
             }
+        } else if (strcmp(args[0], "del") == 0) {
+            if (nargs != 2) {
+                printf("使い方: del <key>\n");
+                continue;
+            }
+
+            int i = find(args[1]);
+            if (i >= 0) {
+                free(table[i].key);
+                free(table[i].value);
+                table[i] = table[count - 1];
+                count--;
+                printf("OK\n");
+            } else {
+                printf("(見つかりません)\n");
+            }
         } else {
             printf("知らないコマンドです: %s\n", args[0]);
         }

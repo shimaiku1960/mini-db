@@ -16,6 +16,10 @@ db> set name taro
 OK
 db> get name
 taro
+db> del name
+OK
+db> get name
+(見つかりません)
 db> exit
 ```
 
